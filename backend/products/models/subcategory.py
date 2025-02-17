@@ -13,6 +13,6 @@ class Subcategory(AbstractCategoryModel):
     )
 
     class Meta:
-        verbose_name = 'Подкатегория'
+        verbose_name = 'подкатегорию'
         verbose_name_plural = 'Подкатегории'
         ordering = AbstractCategoryModel.Meta.ordering

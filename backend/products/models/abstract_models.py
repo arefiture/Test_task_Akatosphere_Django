@@ -23,12 +23,16 @@ class AbstractNameSlugModel(models.Model):
     slug = models.SlugField(
         verbose_name='Слаг',
         max_length=163,
-        unique=True
+        unique=True,
+        blank=True
     )
 
     class Meta:
         abstract = True
         ordering = ['name', 'slug']
+
+    def __str__(self) -> str:
+        return self.name
 
     def save(self, *args, **kwargs):
         is_new_object = not bool(self.pk)
@@ -67,7 +71,6 @@ class AbstractCategoryModel(AbstractNameSlugModel):
     """Абстрактная модель категорий с полем image."""
     image = models.ImageField(
         verbose_name='Путь до картинки',
-        blank=True,
         upload_to='category/image/'
     )
 
