@@ -9,7 +9,8 @@ class Subcategory(AbstractCategoryModel):
     parent_category = models.ForeignKey(
         to=Category,
         verbose_name='Родительская категория',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='subcategories'
     )
 
     class Meta:
