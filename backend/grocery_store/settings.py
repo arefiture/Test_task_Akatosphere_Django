@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'products.apps.ProductsConfig',
+    'api.apps.ApiConfig',
+    'api.auth.apps.AuthConfig',
 ]
 
 MIDDLEWARE = [
