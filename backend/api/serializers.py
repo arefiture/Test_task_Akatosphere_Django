@@ -3,7 +3,7 @@ import base64
 from django.core.files.base import ContentFile
 from rest_framework import serializers
 
-from products.models import Category, Product, Subcategory
+from products.models import Category, Product, ShoppingCart, Subcategory
 
 
 class Base64ImageField(serializers.ImageField):
@@ -85,3 +85,22 @@ class ProductSerializer(serializers.ModelSerializer):
                 context={'request': request}
             ).data
         return None  # На случай, если None будет разрешен... когда-нибудь
+
+
+class ShoppingCartShortSerializer(serializers.ModelSerializer):
+    """Продукты для взаимодействий с корзиной (фулл-очистка и суммы)."""
+    product = ProductSerializer()
+
+    class Meta:
+        model = ShoppingCart
+        fields = ['id', 'product', 'amount']
+        read_only_fields = ['id']
+
+
+class ShoppingCartSerializer(ShoppingCartShortSerializer):
+    """Сериализатор для корзины покупок."""
+    product = ProductSerializer()
+
+    class Meta(ShoppingCartShortSerializer.Meta):
+        fields = ShoppingCartShortSerializer.Meta.fields + ['author']
+        read_only_fields = ['id', 'author']
