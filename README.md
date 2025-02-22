@@ -17,6 +17,6 @@
 * <input type="checkbox" checked > Операции по эндпоинтам корзины может осуществлять только авторизированный пользователь и только со своей корзиной
 * <input type="checkbox" checked > Реализовать авторизацию по токену
 * <input type="checkbox" > Реализовать фикстуры приложения
-* <input type="checkbox" > Подключить swagger и прислать ссылку.
+* <input type="checkbox" checked> Подключить swagger и прислать ссылку.
 * <input type="checkbox" > Покрыть автотестами пару методов  GET и POST
 * <input type="checkbox" > Оформить README файл с описанием функционала приложения и инструкции по запуску приложения локально

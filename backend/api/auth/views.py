@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from api.auth.serializers import LoginSerializer, RegisterSerializer
+from api.auth.swagger import LOGIN_SCHEMA, LOGOUT_SCHEMA, REGISTER_SCHEMA
 
 User = get_user_model()
 
@@ -13,6 +15,7 @@ class RegisterView(views.APIView):
     """Только регистрация."""
     permission_classes = [permissions.AllowAny]
 
+    @swagger_auto_schema(**REGISTER_SCHEMA)
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -28,14 +31,19 @@ class RegisterView(views.APIView):
 
 
 class LoginView(TokenObtainPairView):
-    """Какстомная авторизация через получение токенов."""
+    """Авторизация пользователя."""
     serializer_class = LoginSerializer
+
+    @swagger_auto_schema(**LOGIN_SCHEMA)
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class LogoutView(views.APIView):
     """Логаут с удалением токенов."""
     permission_classes = [permissions.IsAuthenticated]
 
+    @swagger_auto_schema(**LOGOUT_SCHEMA)
     def post(self, request):
 
         try:

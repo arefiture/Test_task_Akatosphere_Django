@@ -32,11 +32,12 @@ class Base64ImageField(serializers.ImageField):
 
 class CategorySerializer(serializers.ModelSerializer):
     """Заготовка под сериализаторы категорий."""
-    image = Base64ImageField()
+    image = Base64ImageField(label='Изображение')
 
     class Meta:
         model = Category
         fields = ['id', 'name', 'slug', 'image']
+        ref_name = 'Категория'
 
 
 class SubcategorySerializer(CategorySerializer):
@@ -44,6 +45,7 @@ class SubcategorySerializer(CategorySerializer):
 
     class Meta(CategorySerializer.Meta):
         model = Subcategory
+        ref_name = 'Подкатегория'
 
 
 class CategoryWithSubcategorySerializer(CategorySerializer):
@@ -55,18 +57,22 @@ class CategoryWithSubcategorySerializer(CategorySerializer):
     class Meta(CategorySerializer.Meta):
         model = Category
         fields = CategorySerializer.Meta.fields + ['subcategories']
+        ref_name = 'Категории с подкатегориями'
 
 
 class ProductImagesSerializer(serializers.Serializer):
     """Сериализатор для изображений в нужном формате."""
-    image_big = Base64ImageField()
-    image_medium = Base64ImageField()
-    image_small = Base64ImageField()
+    image_big = Base64ImageField(label='Большое изображение')
+    image_medium = Base64ImageField(label='Среднее изображение')
+    image_small = Base64ImageField(label='Малое изображение')
+
+    class Meta:
+        ref_name = 'Изображения продуктов'
 
 
 class ProductSerializer(serializers.ModelSerializer):
     """Сериалайзер продуктов."""
-    category = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField(label='Категория')
     subcategory = SubcategorySerializer(read_only=True)
     images = ProductImagesSerializer(source='*', read_only=True)
 
@@ -75,6 +81,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'slug', 'category', 'subcategory', 'price', 'images',
         ]
+        ref_name = 'Продукт'
 
     def get_category(self, obj):
         """Получает родительскую категорию через подкатегорию."""
@@ -95,6 +102,7 @@ class ShoppingCartShortSerializer(serializers.ModelSerializer):
         model = ShoppingCart
         fields = ['id', 'product', 'amount']
         read_only_fields = ['id']
+        ref_name = 'Корзина (без автора)'
 
 
 class ShoppingCartSerializer(ShoppingCartShortSerializer):
@@ -104,3 +112,22 @@ class ShoppingCartSerializer(ShoppingCartShortSerializer):
     class Meta(ShoppingCartShortSerializer.Meta):
         fields = ShoppingCartShortSerializer.Meta.fields + ['author']
         read_only_fields = ['id', 'author']
+        ref_name = 'Корзина (с автором)'
+
+
+class ShoppingCartListSerializer(serializers.Serializer):
+    items = ShoppingCartShortSerializer(many=True)
+    total_items = serializers.IntegerField()
+    total_price = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        ref_name = 'Список элементов корзины с суммами.'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['items'] = ShoppingCartShortSerializer(
+            instance['items'], many=True
+        ).data
+        representation['total_items'] = instance['total_items']
+        representation['total_price'] = instance['total_price']
+        return representation

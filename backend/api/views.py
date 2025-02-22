@@ -1,5 +1,6 @@
 from django.db.models import Sum, F
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
@@ -7,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
-    # HTTP_204_NO_CONTENT,
+    HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
 from rest_framework.views import APIView
@@ -16,8 +17,15 @@ from api.pagination import CategoryPagination, ProductPagination
 from api.serializers import (
     CategoryWithSubcategorySerializer,
     ProductSerializer,
-    ShoppingCartSerializer,
-    ShoppingCartShortSerializer
+    ShoppingCartListSerializer,
+    ShoppingCartSerializer
+)
+from api.swagger import (
+    CATEGORY_PARAM_SCHEMA,
+    PRODUCT_PARAM_SCHEMA,
+    SHOP_ACTION_PARAM_SCHEMA,
+    SHOP_ACTION_POST_RESPONSES_SCHEMA,
+    SHOP_CART_LIST_RESPONSES_SCHEMA,
 )
 from products.models import (
     Category,
@@ -27,25 +35,37 @@ from products.models import (
 
 
 class CategoryListView(ListAPIView):
-    """Вьюшка просмотра списка всех категорий с вложенными подкатегориями."""
+    """Просмотр списка всех категорий с вложенными подкатегориями."""
     queryset = Category.objects.all()
     serializer_class = CategoryWithSubcategorySerializer
     permission_classes = [AllowAny]
     pagination_class = CategoryPagination
 
+    @swagger_auto_schema(**CATEGORY_PARAM_SCHEMA)
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 
 class ProductListView(ListAPIView):
-    """Вьюшка просмотра списка всех продуктов."""
+    """Просмотр списка всех продуктов."""
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
     pagination_class = ProductPagination
 
+    @swagger_auto_schema(**PRODUCT_PARAM_SCHEMA)
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 
 class ProductShopActionView(APIView):
-    """Вьюшка для добавления продукта в корзину."""
+    """Вьюшка для управления продуктами в корзине."""
 
     # Не вижу смысла в patch методе в этом варианте реализации.
+    @swagger_auto_schema(
+        **SHOP_ACTION_PARAM_SCHEMA,
+        **SHOP_ACTION_POST_RESPONSES_SCHEMA
+    )
     def post(self, request, id):
         """Добавление/обновление продукта в корзине."""
         product = get_object_or_404(Product, id=id)
@@ -64,6 +84,9 @@ class ProductShopActionView(APIView):
             status=HTTP_201_CREATED if created else HTTP_200_OK
         )
 
+    @swagger_auto_schema(
+        **SHOP_ACTION_PARAM_SCHEMA
+    )
     def delete(self, request, id):
         """Удаление продукта из корзины."""
         cart_item = get_object_or_404(
@@ -72,9 +95,7 @@ class ProductShopActionView(APIView):
         )
         cart_item.delete()
         return Response(
-            {'message': 'Продукт удален из корзины.'},
-            status=HTTP_200_OK  # Лучше HTTP_204_NO_CONTENT
-            # Но в постмане от этого падают тесты =(
+            status=HTTP_204_NO_CONTENT
         )
 
     @staticmethod
@@ -92,6 +113,7 @@ class ProductShopActionView(APIView):
 class ShoppingCartView(APIView):
     """Вюшка для просмотра и очистки корзины."""
 
+    @swagger_auto_schema(**SHOP_CART_LIST_RESPONSES_SCHEMA)
     def get(self, request):
         """Возвращает состав корзины с общей стоимостью и количеством."""
         cart_items = ShoppingCart.objects.filter(
@@ -106,11 +128,13 @@ class ShoppingCartView(APIView):
             total_price=Sum(F('amount') * F('product__price'))
         )['total_price'] or 0
 
-        return Response({
-            'items': ShoppingCartShortSerializer(cart_items, many=True).data,
+        serializer = ShoppingCartListSerializer({
+            'items': cart_items,
             'total_items': total_items,
             'total_price': total_price
-        }, status=HTTP_200_OK)
+        })
+
+        return Response(serializer.data, status=HTTP_200_OK)
 
     def delete(self, request):
         """Очищает корзину пользователя."""
