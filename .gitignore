@@ -171,4 +171,7 @@ cython_debug/
 .pypirc
 
 # Static
-media/
+# media/  ## Снять коммент
+
+# VSC
+.vscode/
