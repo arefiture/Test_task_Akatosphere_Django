@@ -17,6 +17,27 @@ CATEGORY_DATA = [
     }
 ]
 
+SUBCATEGORY_DATA = [  # parent_category_id в фикстурах в любом случае будет -1
+    {
+        'name': 'Фрукты и овощи',
+        'slug': 'fruits-vegetables',
+        'image': 'category/image/fruits-vegetables.png',
+        'parent_category_id': 1
+    },
+    {
+        'name': 'Молочные продукты',
+        'slug': 'dairy',
+        'image': 'category/image/dairy.png',
+        'parent_category_id': 1
+    },
+    {
+        'name': 'Средства для уборки',
+        'slug': 'cleaning-products',
+        'image': 'category/image/cleaning-products.png',
+        'parent_category_id': 2
+    },
+]
+
 RESPONSE_SCHEMA_CATEGORY = {
     'type': 'object',
     'properties': {
