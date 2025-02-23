@@ -102,9 +102,11 @@ class ProductShopActionView(APIView):
     def validate_amount(amount):
         """Проверка количества."""
         try:
-            amount = int(amount)
-            if amount < 1 or amount > 9999:
-                raise ValidationError('Количество должно быть от 1 до 9999.')
+            amount = float(amount)
+            if amount < 0.01 or amount > 9999.99:
+                raise ValidationError(
+                    'Количество должно быть от 0.01 до 9999.99.'
+                )
             return amount
         except (ValueError, TypeError):
             raise ValidationError('Некорректное значение количества.')

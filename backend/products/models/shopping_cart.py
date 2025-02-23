@@ -19,16 +19,18 @@ class ShoppingCart(models.Model):
         verbose_name='Продукт',
         on_delete=models.CASCADE
     )
-    amount = models.PositiveSmallIntegerField(
+    amount = models.DecimalField(
         verbose_name='Количество',
+        max_digits=6,
+        decimal_places=2,
         validators=[
             MinValueValidator(
-                limit_value=1,
-                message='Количество должно быть равно 1 или больше.'
+                limit_value=0.01,
+                message='Количество должно быть не меньше 0.01.'
             ),
             MaxValueValidator(
-                limit_value=9999,
-                message='Количество не может превышать 9999'
+                limit_value=9999.99,
+                message='Количество не может превышать 9999.99.'
             )
         ]
     )
