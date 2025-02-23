@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, views
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -36,7 +37,13 @@ class LoginView(TokenObtainPairView):
 
     @swagger_auto_schema(**LOGIN_SCHEMA)
     def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+        try:
+            return super().post(request, *args, **kwargs)
+        except AuthenticationFailed as exception:
+            return Response(
+                {'detail': str(exception)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class LogoutView(views.APIView):
@@ -50,7 +57,7 @@ class LogoutView(views.APIView):
             refresh_token = request.data["refresh"]
             token = RefreshToken(refresh_token)
             token.blacklist()  # Добавляем refresh-токен в черный список
-            return Response(status=status.HTTP_205_RESET_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response(
                 {"error": str(e)}, status=status.HTTP_400_BAD_REQUEST

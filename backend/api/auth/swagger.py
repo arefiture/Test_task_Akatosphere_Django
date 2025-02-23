@@ -58,7 +58,7 @@ LOGIN_SCHEMA = {
                 }
             )
         ),
-        401: openapi.Response(
+        400: openapi.Response(
             description='Неверные логин/пароль',
             schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
@@ -89,7 +89,7 @@ LOGOUT_SCHEMA = {
         required=['refresh']
     ),
     'responses': {
-        205: openapi.Response(
+        204: openapi.Response(
             description='Успешный логаут',
         ),
         400: openapi.Response(

@@ -5,3 +5,9 @@ PyJWT==2.10.1
 python-slugify==8.0.4
 Pillow==9.0.0
 drf-yasg==1.21.8
+pytest==6.2.4
+pytest-django==4.4.0
+pytest-lazy-fixture==0.6.3
+pytest-pythonpath==0.7.3
+python-dotenv==1.0.1
+jsonschema==4.23.0
