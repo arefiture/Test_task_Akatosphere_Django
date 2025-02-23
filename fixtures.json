@@ -1,16 +1,5 @@
 [
     {
-        "model": "auth.user",
-        "pk": 1,
-        "fields": {
-            "first_name": "Александр",
-            "last_name": "Тестовый",
-            "username": "alex_test",
-            "email": "alex_test@test.com",
-            "password": "Par0Lbez$ifra"
-        }
-    },
-    {
         "model": "products.category",
         "pk": 1,
         "fields": {
