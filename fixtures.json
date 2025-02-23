@@ -1,0 +1,280 @@
+[
+    {
+        "model": "products.category",
+        "pk": 1,
+        "fields": {
+            "name": "Продукты питания",
+            "slug": "food",
+            "image": "category/image/food.png"
+        }
+    },
+    {
+        "model": "products.category",
+        "pk": 2,
+        "fields": {
+            "name": "Бытовая химия и гигиена",
+            "slug": "household-chemistry-hygiene",
+            "image": "category/image/household-chemistry-hygiene.png"
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 1,
+        "fields": {
+            "name": "Фрукты и овощи",
+            "slug": "fruits-vegetables",
+            "image": "category/image/fruits-vegetables.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 2,
+        "fields": {
+            "name": "Молочные продукты",
+            "slug": "dairy",
+            "image": "category/image/dairy.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 3,
+        "fields": {
+            "name": "Хлеб и выпечка",
+            "slug": "bakery",
+            "image": "category/image/bakery.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 4,
+        "fields": {
+            "name": "Мясо и птица",
+            "slug": "meat-poultry",
+            "image": "category/image/meat-poultry.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 5,
+        "fields": {
+            "name": "Рыба и морепродукты",
+            "slug": "fish-seafood",
+            "image": "category/image/fish-seafood.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 6,
+        "fields": {
+            "name": "Крупы и макароны",
+            "slug": "grains-pasta",
+            "image": "category/image/grains-pasta.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 7,
+        "fields": {
+            "name": "Консервы и полуфабрикаты",
+            "slug": "canned-foods",
+            "image": "category/image/canned-foods.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 8,
+        "fields": {
+            "name": "Сладости и снеки",
+            "slug": "sweets-snacks",
+            "image": "category/image/sweets-snacks.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 9,
+        "fields": {
+            "name": "Напитки",
+            "slug": "beverages",
+            "image": "category/image/beverages.png",
+            "parent_category_id": 1
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 10,
+        "fields": {
+            "name": "Средства для уборки",
+            "slug": "cleaning-products",
+            "image": "category/image/cleaning-products.png",
+            "parent_category_id": 2
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 11,
+        "fields": {
+            "name": "Средства для стирки",
+            "slug": "laundry-products",
+            "image": "category/image/laundry-products.png",
+            "parent_category_id": 2
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 12,
+        "fields": {
+            "name": "Средства личной гигиены",
+            "slug": "personal-hygiene",
+            "image": "category/image/personal-hygiene.png",
+            "parent_category_id": 2
+        }
+    },
+    {
+        "model": "products.subcategory",
+        "pk": 13,
+        "fields": {
+            "name": "Бумажная продукция",
+            "slug": "paper-products",
+            "image": "category/image/paper-products.png",
+            "parent_category_id": 2
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 1,
+        "fields": {
+            "name": "Бананы, кг",
+            "slug": "bananas-kg",
+            "subcategory_id": 1,
+            "price": 250.00,
+            "image_big": "products/image/big/bananas-kg.jpeg",
+            "image_medium": "products/image/big/bananas-kg.jpeg",
+            "image_small": "products/image/big/bananas-kg.jpeg"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 2,
+        "fields": {
+            "name": "Яблоки Гренни Смит, кг",
+            "slug": "apples-granny-smith-kg",
+            "subcategory_id": 1,
+            "price": 320.00,
+            "image_big": "products/image/big/apples-granny-smith-kg.jpeg",
+            "image_medium": "products/image/big/apples-granny-smith-kg.jpeg",
+            "image_small": "products/image/big/apples-granny-smith-kg.jpeg"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 3,
+        "fields": {
+            "name": "Томаты Узбекистан, кг",
+            "slug": "tomatoes-uzbekistan-kg",
+            "subcategory_id": 1,
+            "price": 1150.00,
+            "image_big": "products/image/big/tomatoes-uzbekistan-kg.jfif",
+            "image_medium": "products/image/big/tomatoes-uzbekistan-kg.jfif",
+            "image_small": "products/image/big/tomatoes-uzbekistan-kg.jfif"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 4,
+        "fields": {
+            "name": "Огурцы, кг",
+            "slug": "cucumbers-kg",
+            "subcategory_id": 1,
+            "price": 650.00,
+            "image_big": "products/image/big/cucumbers-kg.jfif",
+            "image_medium": "products/image/big/cucumbers-kg.jfif",
+            "image_small": "products/image/big/cucumbers-kg.jfif"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 5,
+        "fields": {
+            "name": "Лук репчатый, кг",
+            "slug": "bulb-onions-kg",
+            "subcategory_id": 1,
+            "price": 90.00,
+            "image_big": "products/image/big/bulb-onions-kg.jfif",
+            "image_medium": "products/image/big/bulb-onions-kg.jfif",
+            "image_small": "products/image/big/bulb-onions-kg.jfif"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 5,
+        "fields": {
+            "name": "УГЛЕЧЕ ПОЛЕ Молоко цельное 500 мл мдж 3,5% -5,2%",
+            "slug": "ugleche-pole-whole-milk-500ml-3.5-5.2",
+            "subcategory_id": 2,
+            "price": 119.00,
+            "image_big": "products/image/big/ugleche-pole-whole-milk-500ml-3.5-5.2.jpg",
+            "image_medium": "products/image/big/ugleche-pole-whole-milk-500ml-3.5-5.2.jpg",
+            "image_small": "products/image/big/ugleche-pole-whole-milk-500ml-3.5-5.2.jpg"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 6,
+        "fields": {
+            "name": "Батон СМАК 330г молочный",
+            "slug": "baton-smak-330g-molochny",
+            "subcategory_id": 3,
+            "price": 42.54,
+            "image_big": "products/image/big/baton-smak-330g-molochny.png",
+            "image_medium": "products/image/big/baton-smak-330g-molochny.png",
+            "image_small": "products/image/big/baton-smak-330g-molochny.png"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 7,
+        "fields": {
+            "name": "Ветчина МИРАТОРГ 400г Д/Завтрака охл",
+            "slug": "vetchina-miratorg-400g-ohl",
+            "subcategory_id": 4,
+            "price": 240.00,
+            "image_big": "products/image/big/vetchina-miratorg-400g-ohl.png",
+            "image_medium": "products/image/big/vetchina-miratorg-400g-ohl.png",
+            "image_small": "products/image/big/vetchina-miratorg-400g-ohl.png"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 8,
+        "fields": {
+            "name": "Каша Увелка 40г овсяная б/п с клубникой пакет",
+            "slug": "kasha-uvelka-40g-oat-instant-strawberry-pack",
+            "subcategory_id": 6,
+            "price": 23.90,
+            "image_big": "products/image/big/kasha-uvelka-40g-oat-instant-strawberry-pack.jpg",
+            "image_medium": "products/image/big/kasha-uvelka-40g-oat-instant-strawberry-pack.jpg",
+            "image_small": "products/image/big/kasha-uvelka-40g-oat-instant-strawberry-pack.jpg"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 9,
+        "fields": {
+            "name": "Изделия Мак Макфа 400г вермишель паутинка",
+            "slug": "makfa-400g-vermicelli-pautinka",
+            "subcategory_id": 6,
+            "price": 54.80,
+            "image_big": "products/image/big/makfa-400g-vermicelli-pautinka.jpg",
+            "image_medium": "products/image/big/makfa-400g-vermicelli-pautinka.jpg",
+            "image_small": "products/image/big/makfa-400g-vermicelli-pautinka.jpg"
+        }
+    }
+]
