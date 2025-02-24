@@ -1,13 +1,18 @@
 from datetime import timedelta
 from pathlib import Path
+from environs import Env
+
+# Загружаем переменные из .env
+env = Env()
+env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-6eeu#%ea&*d%oe-u!21jn*g5(!&2!s9e1eacz8sbmqmqj6d0jd'
+SECRET_KEY = env.str("SECRET_KEY", "django-insecure-заглушка")
 
-DEBUG = True
+DEBUG = env.bool("DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", [])
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,24 +62,16 @@ WSGI_APPLICATION = 'grocery_store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env.str('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': BASE_DIR / env.str('DATABASE_NAME', 'db.sqlite3'),
     }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 LANGUAGE_CODE = 'ru-RU'
@@ -82,9 +79,7 @@ LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 STATIC_URL = '/static/'
@@ -99,13 +94,20 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # По умолчанию доступ только для аутентифицированных
+        'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),   # Срок действия access-токена
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Срок действия refresh-токена
-    'ROTATE_REFRESH_TOKENS': True,                  # Обновлять refresh-токен при каждом запросе
-    'BLACKLIST_AFTER_ROTATION': True,               # Добавлять старые токены в черный список
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=env.int('ACCESS_TOKEN_LIFETIME_HOURS', 12)),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=env.int('REFRESH_TOKEN_LIFETIME_DAYS', 1)),
+    'ROTATE_REFRESH_TOKENS': env.bool('ROTATE_REFRESH_TOKENS', True),
+    'BLACKLIST_AFTER_ROTATION': env.bool('BLACKLIST_AFTER_ROTATION', True),
+}
+
+PAGINATION = {
+    'DEFAULT_PAGE_SIZE': env.int('DEFAULT_PAGE_SIZE', 10),
+    'PAGE_QUERY_PARAM': 'page_size',
+    'CATEGORY_MAX_PAGE_SIZE': env.int('CATEGORY_MAX_PAGE_SIZE', 100),
+    'PRODUCT_MAX_PAGE_SIZE': env.int('PRODUCT_MAX_PAGE_SIZE', 50),
 }
