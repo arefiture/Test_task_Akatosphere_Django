@@ -11,3 +11,4 @@ pytest-lazy-fixture==0.6.3
 pytest-pythonpath==0.7.3
 python-dotenv==1.0.1
 jsonschema==4.23.0
+environs==11.2.0

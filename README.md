@@ -70,6 +70,8 @@ pip install -r requirements.txt
 cd backend/
 ```
 
+***ВАЖНО***: на основе файла `.env.example` в той же дирректории нужно создать файл `.env`.
+
 Далее все команды приведины для Windows. Для Linux/MacOS используйте `python3` вместо `python`.
 
 Выполните миграции:
